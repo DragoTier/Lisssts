@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonReorderGroup } from '@ionic/angular';
+import { InventoryItem } from '../inventory-item';
 
 @Component({
   selector: 'app-tab2',
@@ -8,6 +9,11 @@ import { IonReorderGroup } from '@ionic/angular';
 })
 
 export class Tab2Page {
+  inventoryItem: InventoryItem = {
+    name: 'Bier',
+    count: 6
+  };
+
   items = [1, 2, 3];
 
   @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
@@ -21,6 +27,15 @@ export class Tab2Page {
 
   toggleReorderGrouo(){
     this.reorderGroup.disabled = !this.reorderGroup.disabled;
+  }
+
+  delete(item: InventoryItem){
+    item.name = '';
+    
+  }
+
+  add(item: InventoryItem){
+    item.name = 'Bier2';
   }
 
 }
