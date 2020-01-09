@@ -7,8 +7,10 @@ import { InventoryItem } from '../inventory-item';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-
 export class Tab2Page {
+  stringToggle: string = 'reorder';
+  stringDone: string = 'done';
+
   inventoryItem: InventoryItem = {
     name: 'Bier',
     count: 6
@@ -20,13 +22,16 @@ export class Tab2Page {
 
   constructor() {}
 
+  reorderButtonName: string = this.stringToggle;
+
   doReorder(ev: any){
     ev.detail.complete();
     //this.items = ev.detail.complete(this.items);
   }
 
-  toggleReorderGrouo(){
+  toggleReorderGroup(){
     this.reorderGroup.disabled = !this.reorderGroup.disabled;
+    this.reorderButtonName = this.toggleReorderButtonName(this.reorderGroup.disabled);
   }
 
   delete(item: InventoryItem){
@@ -38,4 +43,11 @@ export class Tab2Page {
     item.name = 'Bier2';
   }
 
+  private toggleReorderButtonName(isDisabled: boolean): string {
+    if(isDisabled) {
+      return this.stringToggle;
+    } else {
+      return this.stringDone;
+    }
+  }
 }

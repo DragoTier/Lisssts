@@ -3,6 +3,7 @@
     <ion-title>
       Inventory
     </ion-title>
+    <ion-button slot="primary" (click)="toggleReorderGroup()">{{reorderButtonName}}</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +14,7 @@
     </ion-card-header>
   </ion-card>
 
-  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="true">
     <ion-item-sliding>
       <ion-item>
         <ion-label> Pokemon Gelb</ion-label>
