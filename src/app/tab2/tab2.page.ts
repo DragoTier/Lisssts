@@ -11,10 +11,18 @@ export class Tab2Page {
   stringToggle: string = 'reorder';
   stringDone: string = 'done';
 
+  reorderButtonName: string = this.stringToggle;
   inventoryItem: InventoryItem = {
     name: 'Bier',
     count: 6
   };
+  inventoryItems: InventoryItem[] = [
+    {name: 'Bier', count: 6},
+    {name: 'Nudeln', count: 1},
+    {name: 'Tomaten', count: 1},
+    {name: 'Pesto', count: 2},
+    {name: 'Feta', count: 2}
+  ];
 
   items = [1, 2, 3];
 
@@ -22,11 +30,9 @@ export class Tab2Page {
 
   constructor() {}
 
-  reorderButtonName: string = this.stringToggle;
 
   doReorder(ev: any){
-    ev.detail.complete();
-    //this.items = ev.detail.complete(this.items);
+    this.inventoryItems = ev.detail.complete(this.inventoryItems);
   }
 
   toggleReorderGroup(){
