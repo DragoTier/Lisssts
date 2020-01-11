@@ -1,4 +1,4 @@
-import { InventoryItem } from './inventory-item';
+import { InventoryItem } from './mock-inventory';
 
 describe('InventoryItem', () => {
   it('should create an instance', () => {
