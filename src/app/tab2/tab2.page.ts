@@ -26,11 +26,12 @@ export class Tab2Page implements OnInit{
   constructor(private inventoryService: InventoryService) {}
 
   ngOnInit(){
-    this.getInventory();
+    this.subscribeInventory();
   }
 
-  getInventory(): void {
-    this.inventory = this.inventoryService.getInventory();
+  subscribeInventory(): void {
+    this.inventoryService.getInventory()
+    .subscribe(inventory => this.inventory = inventory);
   }
 
   doReorder(ev: any){
