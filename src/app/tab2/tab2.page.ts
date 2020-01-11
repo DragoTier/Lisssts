@@ -62,14 +62,19 @@ export class Tab2Page implements OnInit{
     });
   }
 
-  // add(item: InventoryItem){
-  //   const index = this.inventoryItems.indexOf(item, 0);
-  //   if(index > -1){
-  //     this.inventoryItems[index].count++;
-  //   } else {
-  //     this.inventoryItems.push(item);
-  //   }
-  // }
+  add(item: InventoryItem, id: number){
+    this.inventory.forEach( (list, invIndex) => {
+      if(list.id == id){
+        const listIndex = list.items.indexOf(item, 0);
+        if(listIndex > -1){
+          this.inventory[invIndex].items[listIndex].count++;
+        } else {
+          this.inventory[invIndex].items.push(item);
+        }
+        return;
+      }
+    });
+  }
 
   // addNewItem(item: InventoryItem){
   //   const index = this.inventoryItems.indexOf(item, 0);
