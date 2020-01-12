@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Inventory</ion-title>
-    <ion-button slot="primary" (click)="toggleReorderGroup()">{{reorderButtonName}}</ion-button>
+    <ion-button slot="primary" (click)="toggleReorderGroups()">{{reorderButtonName}}</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +11,7 @@
       <ion-card-title>{{inventoryList.name}}</ion-card-title>
     </ion-card-header>
     
-    <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="true" > 
+    <ion-reorder-group (ionItemReorder)="doReorder($event, inventoryList.id)" disabled="true" > 
       <ion-item-sliding *ngFor="let item of inventoryList.items"> 
         <ion-item>
           <ion-label> {{item.name}}</ion-label>

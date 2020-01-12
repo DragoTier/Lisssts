@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { INVENTORY} from './mock-inventory';
 import { InventoryList} from './mock-inventory';
 import { Observable, of} from 'rxjs';
 
@@ -8,9 +7,19 @@ import { Observable, of} from 'rxjs';
 })
 export class InventoryService {
 
+    inventory: InventoryList[] = [
+    {name: 'Lebensmittel', id: 1, items: [{name: 'Bierooo', count: 9000}, {name: 'Weinoo', count: 666}]},
+    {name: 'Anderes', id: 2, items: [{name: 'Star Wars', count: 404}, {name: 'deine mutter', count: 1}]}
+];
   constructor() { }
 
+  //works asynchronously
   getInventory(): Observable<InventoryList[]> {
-    return of(INVENTORY);
+    return of(this.inventory);
+  }
+
+  setInventory(inventory: InventoryList[]){
+    this.inventory = inventory;
+    this.getInventory();
   }
 }

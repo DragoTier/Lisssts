@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
 import { IonReorderGroup } from '@ionic/angular';
 import { InventoryItem, InventoryList } from '../mock-inventory';
 import { InventoryService} from '../inventory.service';
@@ -21,9 +21,9 @@ export class Tab2Page implements OnInit{
 
   inventory: InventoryList[];
 
-  @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
-
   constructor(private inventoryService: InventoryService) {}
+
+  @ViewChildren(IonReorderGroup) reorderGroupArray !: QueryList<IonReorderGroup>;
 
   ngOnInit(){
     this.subscribeInventory();
@@ -31,23 +31,26 @@ export class Tab2Page implements OnInit{
 
   subscribeInventory(): void {
     this.inventoryService.getInventory()
-    .subscribe(inventory => this.inventory = inventory);
+    .subscribe(inventory => {this.inventory = inventory; console.log("fetched");});
   }
 
-  doReorder(ev: any){
-    this.inventory.forEach(element => {
-      element = ev.detail.complete(element);
+  doReorder(ev: any, id: number){
+    this.inventory.forEach( (list, invIndex) => {
+      if(list.id == id){
+        this.inventory[invIndex].items = ev.detail.complete(this.inventory[invIndex].items);
+        return;
+      }
     });
-    
   }
 
-  toggleReorderGroup(){
-    this.reorderGroup.disabled = !this.reorderGroup.disabled;
-    this.reorderButtonName = this.toggleReorderButtonName(this.reorderGroup.disabled);
+  toggleReorderGroups(){
+    this.reorderGroupArray.forEach( (reorderGroup, index) => {
+      reorderGroup.disabled = !reorderGroup.disabled;
+    });
+    this.reorderButtonName = this.toggleReorderButtonName(this.reorderGroupArray.first.disabled);
   }
 
   delete(item: InventoryItem, id: number){
-
     this.inventory.forEach( (list, invIndex) => {
       if(list.id == id){
         const listIndex = list.items.indexOf(item, 0);
@@ -58,6 +61,7 @@ export class Tab2Page implements OnInit{
             this.inventory[invIndex].items.splice(listIndex, 1);
           }
         }
+        this.updateInventory();
         return;
       }
     });
@@ -72,6 +76,7 @@ export class Tab2Page implements OnInit{
         } else {
           this.inventory[invIndex].items.push(item);
         }
+        this.updateInventory();
         return;
       }
     });
@@ -85,6 +90,9 @@ export class Tab2Page implements OnInit{
   //     this.inventoryItems.push(item);
   //   }
   // }
+  private updateInventory(){
+    this.inventoryService.setInventory(this.inventory);
+  }
 
   private toggleReorderButtonName(isDisabled: boolean): string {
     if(isDisabled) {
