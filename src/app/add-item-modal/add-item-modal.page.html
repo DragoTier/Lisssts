@@ -5,5 +5,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="dismiss()">Add item</ion-button>
+  <div class="ion-padding">
+    <ion-item>
+      <ion-label position="stacked" >Name</ion-label>
+      <ion-input type="text" color="secondary" autofocus="true" autocapitalize="true" [(ngModel)]="name"></ion-input>
+    </ion-item>
+  </div>
+  <div class="ion-padding">
+    <ion-item>
+      <ion-label position="stacked">Count</ion-label>
+      <ion-input inputmode="numeric" [(ngModel)]="count"></ion-input>
+    </ion-item>
+  </div>
+  <div class="ion-padding">
+    <ion-button expand="block" size="default" (click)="checkProperties()">Add item</ion-button>
+  </div>
 </ion-content>
