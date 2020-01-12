@@ -1,7 +1,9 @@
 import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
-import { IonReorderGroup } from '@ionic/angular';
+import { IonReorderGroup, ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { InventoryItem, InventoryList } from '../mock-inventory';
-import { InventoryService} from '../inventory.service';
+import { InventoryService } from '../inventory.service';
+import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
 
 @Component({
   selector: 'app-tab2',
@@ -11,22 +13,35 @@ import { InventoryService} from '../inventory.service';
 export class Tab2Page implements OnInit{
   stringToggle: string = 'reorder';
   stringDone: string = 'done';
-
   reorderButtonName: string = this.stringToggle;
+  inventory: InventoryList[];
 
   inventoryItem: InventoryItem = {
     name: 'MockItem',
     count: 5
   }
 
-  inventory: InventoryList[];
-
-  constructor(private inventoryService: InventoryService) {}
+  constructor(private inventoryService: InventoryService, public modalController: ModalController) {}
 
   @ViewChildren(IonReorderGroup) reorderGroupArray !: QueryList<IonReorderGroup>;
 
   ngOnInit(){
     this.subscribeInventory();
+  }
+
+  async presentModal(id: number) {
+    const modal = await this.modalController.create({
+      component: AddItemModalPage,
+      componentProps: {
+        'id': id,
+      }
+    });
+    modal.onDidDismiss().then((detail) => {
+      if(detail !== null){
+        this.add(detail.data.item, detail.data.id);
+      }
+    });
+    return await modal.present();
   }
 
   subscribeInventory(): void {
