@@ -1,9 +1,9 @@
 import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
 import { IonReorderGroup, ModalController } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core';
 import { InventoryItem, InventoryList } from '../mock-inventory';
 import { InventoryService } from '../inventory.service';
 import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
+import { AddListModalPage } from '../add-list-modal/add-list-modal.page';
 
 @Component({
   selector: 'app-tab2',
@@ -29,7 +29,22 @@ export class Tab2Page implements OnInit{
     this.subscribeInventory();
   }
 
-  async presentModal(id: number) {
+  async presentNewListModal() {
+    const modal = await this.modalController.create({
+      component: AddListModalPage,
+      componentProps: {
+        'lastId': this.inventory[this.inventory.length-1].id,
+      }
+    });
+    modal.onDidDismiss().then((detail) => {
+      if(detail !== null){
+        this.inventory.push(detail.data.list);
+      }
+    });
+    return await modal.present();
+  }
+
+  async presentNewItemModal(id: number) {
     const modal = await this.modalController.create({
       component: AddItemModalPage,
       componentProps: {
