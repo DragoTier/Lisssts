@@ -1,9 +1,10 @@
 import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
-import { IonReorderGroup, ModalController } from '@ionic/angular';
+import { IonReorderGroup, ModalController, PopoverController } from '@ionic/angular';
 import { InventoryItem, InventoryList } from '../mock-inventory';
 import { InventoryService } from '../inventory.service';
 import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
 import { AddListModalPage } from '../add-list-modal/add-list-modal.page';
+import { DeleteListPopoverComponent } from 'app/delete-list-popover/delete-list-popover.component';
 
 @Component({
   selector: 'app-tab2',
@@ -21,12 +22,21 @@ export class Tab2Page implements OnInit{
     count: 5
   }
 
-  constructor(private inventoryService: InventoryService, public modalController: ModalController) {}
+  constructor(private inventoryService: InventoryService, public modalController: ModalController, public popoverController: PopoverController) {}
 
   @ViewChildren(IonReorderGroup) reorderGroupArray !: QueryList<IonReorderGroup>;
 
   ngOnInit(){
     this.subscribeInventory();
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: DeleteListPopoverComponent,
+      event: ev,
+      translucent: true
+    });
+    return await popover.present();
   }
 
   async presentNewListModal() {
