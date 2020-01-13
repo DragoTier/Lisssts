@@ -106,7 +106,7 @@ export class Tab2Page implements OnInit{
       }
     });
   }
-
+ //master kommentar
   add(item: InventoryItem, id: number){
     this.inventory.forEach( (list, invIndex) => {
       if(list.id == id){
