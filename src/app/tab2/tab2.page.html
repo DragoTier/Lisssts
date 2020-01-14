@@ -8,10 +8,13 @@
 <ion-content>
   <ion-card *ngFor="let inventoryList of inventory">
     <ion-card-header>
-      <ion-card-title>{{inventoryList.name}}</ion-card-title>
-      <ion-button vertical="end" (click)="presentPopover()">
-        <ion-icon name="more"></ion-icon>
-      </ion-button>
+      <ion-item lines="full" expand="full">
+        {{inventoryList.name}}
+        <ion-button fill="clear" slot="end">
+          <ion-icon slot="icon-only" name="more"></ion-icon>
+        </ion-button>
+      </ion-item>
+      
     </ion-card-header>
     
     <ion-reorder-group (ionItemReorder)="doReorder($event, inventoryList.id)" disabled="true" > 
