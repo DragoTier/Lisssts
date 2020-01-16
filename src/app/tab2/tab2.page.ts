@@ -30,20 +30,35 @@ export class Tab2Page implements OnInit{
     this.subscribeInventory();
   }
 
-  async presentPopover(ev: any) {
+  async presentPopover(ev: any, id: number) {
     const popover = await this.popoverController.create({
       component: DeleteListPopoverComponent,
       event: ev,
-      translucent: true
+      // translucent: true
+    });
+    popover.onDidDismiss().then( detail => {
+      if(detail !== null && detail.data.deletePressed){
+        this.inventory.forEach( (list, invIndex) => {
+          if(list.id == id){
+            this.inventory.splice(invIndex, 1);
+            return;
+          }
+        });
+      }
     });
     return await popover.present();
   }
- //neuer kommentar
+
   async presentNewListModal() {
+    let lastId: number = 0;
+    if(this.inventory.length > 0){
+      lastId = this.inventory[this.inventory.length-1].id;
+    }
+
     const modal = await this.modalController.create({
       component: AddListModalPage,
       componentProps: {
-        'lastId': this.inventory[this.inventory.length-1].id,
+        'lastId': lastId
       }
     });
     modal.onDidDismiss().then((detail) => {
@@ -106,7 +121,7 @@ export class Tab2Page implements OnInit{
       }
     });
   }
- //master kommentar
+
   add(item: InventoryItem, id: number){
     this.inventory.forEach( (list, invIndex) => {
       if(list.id == id){

@@ -8,10 +8,10 @@
 <ion-content>
   <ion-card *ngFor="let inventoryList of inventory">
     <ion-card-header>
-      <ion-item lines="full" expand="full">
+      <ion-item lines="full" expand="full" no-padding>
         {{inventoryList.name}}
-        <ion-button fill="clear" slot="end">
-          <ion-icon slot="icon-only" name="more"></ion-icon>
+        <ion-button fill="clear" slot="end" (click)="presentPopover($event, inventoryList.id)">
+          <ion-icon slot="icon-only" size="default" name="more"></ion-icon>
         </ion-button>
       </ion-item>
       

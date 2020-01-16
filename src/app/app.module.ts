@@ -10,10 +10,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddItemModalPageModule } from './add-item-modal/add-item-modal.module';
 import { AddListModalPageModule } from './add-list-modal/add-list-modal.module';
+import { DeleteListPopoverComponent } from './delete-list-popover/delete-list-popover.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, DeleteListPopoverComponent],
+  entryComponents: [DeleteListPopoverComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AddItemModalPageModule, AddListModalPageModule],
   providers: [
     StatusBar,

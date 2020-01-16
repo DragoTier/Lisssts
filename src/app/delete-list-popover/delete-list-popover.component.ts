@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-delete-list-popover',
@@ -7,8 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteListPopoverComponent implements OnInit {
 
-  constructor() { }
+  deletePressed: boolean = false;
 
-  ngOnInit() {}
+  constructor( public popoverCtrl: PopoverController) { }
 
+  ngOnInit() {
+    this.deletePressed = false;
+  }
+
+  delete(){
+    this.deletePressed = true;
+    this.dismiss();
+  }
+
+  dismiss(){
+    this.popoverCtrl.dismiss({
+      'deletePressed': true
+    });
+  }
 }
