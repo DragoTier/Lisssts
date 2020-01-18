@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ToastController, ModalController } from '@ionic/angular';
-import { InventoryItem } from '../mock-inventory';
+import { InventoryItem } from '../inventoryClasses';
 
 @Component({
   selector: 'app-add-item-modal',

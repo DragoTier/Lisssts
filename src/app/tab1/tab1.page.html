@@ -6,18 +6,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let inventoryList of inventory">
+  <ion-card *ngFor="let shoppingList of shoppingLists">
     <ion-card-header>
       <ion-item lines="full" expand="full" no-padding>
-        <ion-card-title>{{inventoryList.name}}</ion-card-title>
-        <ion-button fill="clear" slot="end" (click)="presentPopover($event, inventoryList.id)">
+        <ion-card-title>{{shoppingList.name}}</ion-card-title>
+        <ion-button fill="clear" slot="end" (click)="presentPopover($event, shoppingList.id)">
           <ion-icon slot="icon-only" size="default" name="more"></ion-icon>
         </ion-button>
       </ion-item>
     </ion-card-header>
     
-    <ion-reorder-group (ionItemReorder)="doReorder($event, inventoryList.id)" disabled="true" > 
-      <ion-item-sliding *ngFor="let item of inventoryList.items"> 
+    <ion-reorder-group (ionItemReorder)="doReorder($event, shoppingList.id)" disabled="true" > 
+      <ion-item-sliding *ngFor="let item of shoppingList.items"> 
         <ion-item> 
           <ion-checkbox color="success" slot="start" checked="false"></ion-checkbox>
           <ion-label>{{item.name}}</ion-label>
@@ -25,14 +25,14 @@
           <ion-reorder slot="end"></ion-reorder>
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="delete(item, inventoryList.id)">Remove</ion-item-option>
+          <ion-item-option color="danger" (click)="delete(item, shoppingList.id)">Remove</ion-item-option>
         </ion-item-options>
         <ion-item-options side="start">
-          <ion-item-option  color="success" (click)="add(item, inventoryList.id)">Add</ion-item-option>
+          <ion-item-option  color="success" (click)="add(item, shoppingList.id)">Add</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-reorder-group>
-    <ion-button  expand="block" fill="clear" size="default" (click)="presentNewItemModal(inventoryList.id)">
+    <ion-button  expand="block" fill="clear" size="default" (click)="presentNewItemModal(shoppingList.id)">
       <ion-icon name="add-circle-outline" size="large"></ion-icon>
     </ion-button>
   </ion-card>

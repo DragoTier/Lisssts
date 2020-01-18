@@ -1,6 +1,6 @@
 import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
 import { IonReorderGroup, ModalController, PopoverController } from '@ionic/angular';
-import { InventoryItem, InventoryList } from '../mock-inventory';
+import { InventoryItem, InventoryList } from '../inventoryClasses';
 import { InventoryService } from '../inventory.service';
 import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
 import { AddListModalPage } from '../add-list-modal/add-list-modal.page';
@@ -16,11 +16,6 @@ export class Tab2Page implements OnInit{
   stringDone: string = 'done';
   reorderButtonName: string = this.stringToggle;
   inventory: InventoryList[];
-
-  inventoryItem: InventoryItem = {
-    name: 'MockItem',
-    count: 5
-  }
 
   constructor(private inventoryService: InventoryService, public modalController: ModalController, public popoverController: PopoverController) {}
 

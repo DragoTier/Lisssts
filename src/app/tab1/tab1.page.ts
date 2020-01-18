@@ -1,10 +1,10 @@
 import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
 import { IonReorderGroup, ModalController, PopoverController } from '@ionic/angular';
-import { InventoryItem, InventoryList } from '../mock-inventory';
-import { InventoryService } from '../inventory.service';
+import { InventoryItem, InventoryList } from '../inventoryClasses';
 import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
 import { AddListModalPage } from '../add-list-modal/add-list-modal.page';
 import { DeleteListPopoverComponent } from 'app/delete-list-popover/delete-list-popover.component';
+import { ShoppingListService } from 'app/shopping-list.service';
 
 @Component({
   selector: 'app-tab1',
@@ -15,19 +15,14 @@ export class Tab1Page implements OnInit{
   stringToggle: string = 'reorder';
   stringDone: string = 'done';
   reorderButtonName: string = this.stringToggle;
-  inventory: InventoryList[];
+  shoppingLists: InventoryList[];
 
-  inventoryItem: InventoryItem = {
-    name: 'MockItem',
-    count: 5
-  }
-
-  constructor(private inventoryService: InventoryService, public modalController: ModalController, public popoverController: PopoverController) {}
+  constructor(private shoppingListService: ShoppingListService, public modalController: ModalController, public popoverController: PopoverController) {}
 
   @ViewChildren(IonReorderGroup) reorderGroupArray !: QueryList<IonReorderGroup>;
 
   ngOnInit(){
-    this.subscribeInventory();
+    this.subscribeShoppingList();
   }
 
   async presentPopover(ev: any, id: number) {
@@ -38,9 +33,9 @@ export class Tab1Page implements OnInit{
     });
     popover.onDidDismiss().then( detail => {
       if(detail !== null && detail.data.deletePressed){
-        this.inventory.forEach( (list, invIndex) => {
+        this.shoppingLists.forEach( (list, invIndex) => {
           if(list.id == id){
-            this.inventory.splice(invIndex, 1);
+            this.shoppingLists.splice(invIndex, 1);
             return;
           }
         });
@@ -51,8 +46,8 @@ export class Tab1Page implements OnInit{
 
   async presentNewListModal() {
     let lastId: number = 0;
-    if(this.inventory.length > 0){
-      lastId = this.inventory[this.inventory.length-1].id;
+    if(this.shoppingLists.length > 0){
+      lastId = this.shoppingLists[this.shoppingLists.length-1].id;
     }
 
     const modal = await this.modalController.create({
@@ -63,7 +58,7 @@ export class Tab1Page implements OnInit{
     });
     modal.onDidDismiss().then((detail) => {
       if(detail !== null){
-        this.inventory.push(detail.data.list);
+        this.shoppingLists.push(detail.data.list);
       }
     });
     return await modal.present();
@@ -84,15 +79,15 @@ export class Tab1Page implements OnInit{
     return await modal.present();
   }
 
-  subscribeInventory(): void {
-    this.inventoryService.getInventory()
-    .subscribe(inventory => {this.inventory = inventory; console.log("fetched");});
+  subscribeShoppingList(): void {
+    this.shoppingListService.getShoppingList()
+    .subscribe(shoppingList => {this.shoppingLists = shoppingList; console.log("fetched");});
   }
 
   doReorder(ev: any, id: number){
-    this.inventory.forEach( (list, invIndex) => {
+    this.shoppingLists.forEach( (list, invIndex) => {
       if(list.id == id){
-        this.inventory[invIndex].items = ev.detail.complete(this.inventory[invIndex].items);
+        this.shoppingLists[invIndex].items = ev.detail.complete(this.shoppingLists[invIndex].items);
         return;
       }
     });
@@ -106,14 +101,14 @@ export class Tab1Page implements OnInit{
   }
 
   delete(item: InventoryItem, id: number){
-    this.inventory.forEach( (list, invIndex) => {
+    this.shoppingLists.forEach( (list, invIndex) => {
       if(list.id == id){
         const listIndex = list.items.indexOf(item, 0);
         if(listIndex > -1){
           if(list.items[listIndex].count > 1){
-            this.inventory[invIndex].items[listIndex].count--;
+            this.shoppingLists[invIndex].items[listIndex].count--;
           } else {
-            this.inventory[invIndex].items.splice(listIndex, 1);
+            this.shoppingLists[invIndex].items.splice(listIndex, 1);
           }
         }
         this.updateInventory();
@@ -123,13 +118,13 @@ export class Tab1Page implements OnInit{
   }
 
   add(item: InventoryItem, id: number){
-    this.inventory.forEach( (list, invIndex) => {
+    this.shoppingLists.forEach( (list, invIndex) => {
       if(list.id == id){
         const listIndex = list.items.indexOf(item, 0);
         if(listIndex > -1){
-          this.inventory[invIndex].items[listIndex].count++;
+          this.shoppingLists[invIndex].items[listIndex].count++;
         } else {
-          this.inventory[invIndex].items.push(item);
+          this.shoppingLists[invIndex].items.push(item);
         }
         this.updateInventory();
         return;
@@ -146,7 +141,7 @@ export class Tab1Page implements OnInit{
   //   }
   // }
   private updateInventory(){
-    this.inventoryService.setInventory(this.inventory);
+    this.shoppingListService.setShoppingList(this.shoppingLists);
   }
 
   private toggleReorderButtonName(isDisabled: boolean): string {
