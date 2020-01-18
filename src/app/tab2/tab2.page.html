@@ -9,7 +9,7 @@
   <ion-card *ngFor="let inventoryList of inventory">
     <ion-card-header>
       <ion-item lines="full" expand="full" no-padding>
-        {{inventoryList.name}}
+        <ion-card-title>{{inventoryList.name}}</ion-card-title>
         <ion-button fill="clear" slot="end" (click)="presentPopover($event, inventoryList.id)">
           <ion-icon slot="icon-only" size="default" name="more"></ion-icon>
         </ion-button>
@@ -21,7 +21,7 @@
       <ion-item-sliding *ngFor="let item of inventoryList.items"> 
         <ion-item>
           <ion-label> {{item.name}}</ion-label>
-          <ion-label> {{item.count}}</ion-label>
+          <ion-label>{{item.count}}</ion-label>
           <ion-reorder slot="end"></ion-reorder>
         </ion-item>
         <ion-item-options side="end">
