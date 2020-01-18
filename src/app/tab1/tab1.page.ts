@@ -5,6 +5,7 @@ import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
 import { AddListModalPage } from '../add-list-modal/add-list-modal.page';
 import { DeleteListPopoverComponent } from 'app/delete-list-popover/delete-list-popover.component';
 import { ShoppingListService } from 'app/shopping-list.service';
+import { StorageService } from 'app/storage.service';
 
 @Component({
   selector: 'app-tab1',
@@ -17,7 +18,7 @@ export class Tab1Page implements OnInit{
   reorderButtonName: string = this.stringToggle;
   shoppingLists: InventoryList[];
 
-  constructor(private shoppingListService: ShoppingListService, public modalController: ModalController, public popoverController: PopoverController) {}
+  constructor(private shoppingListService: ShoppingListService, public modalController: ModalController, public popoverController: PopoverController, private storageService: StorageService) {}
 
   @ViewChildren(IonReorderGroup) reorderGroupArray !: QueryList<IonReorderGroup>;
 
@@ -91,6 +92,7 @@ export class Tab1Page implements OnInit{
         return;
       }
     });
+    this.updateShoppingLists();
   }
 
   toggleReorderGroups(){
@@ -111,7 +113,7 @@ export class Tab1Page implements OnInit{
             this.shoppingLists[invIndex].items.splice(listIndex, 1);
           }
         }
-        this.updateInventory();
+        this.updateShoppingLists();
         return;
       }
     });
@@ -126,10 +128,14 @@ export class Tab1Page implements OnInit{
         } else {
           this.shoppingLists[invIndex].items.push(item);
         }
-        this.updateInventory();
+        this.updateShoppingLists();
         return;
       }
     });
+  }
+
+  showStorage(){
+    this.storageService.loadFromDisk();
   }
 
   // addNewItem(item: InventoryItem){
@@ -140,7 +146,7 @@ export class Tab1Page implements OnInit{
   //     this.inventoryItems.push(item);
   //   }
   // }
-  private updateInventory(){
+  private updateShoppingLists(){
     this.shoppingListService.setShoppingList(this.shoppingLists);
   }
 

@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { StorageService } from 'app/storage.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
+  
 
-  constructor() {}
+  constructor(private storageService: StorageService) {}
 
+  ngOnInit(): void {
+    this.storageService.subscribeShoppingLists();
+    this.storageService.subscribeInventory();
+  }
 }

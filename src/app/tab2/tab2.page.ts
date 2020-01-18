@@ -91,6 +91,7 @@ export class Tab2Page implements OnInit{
         return;
       }
     });
+    this.updateInventory();
   }
 
   toggleReorderGroups(){
