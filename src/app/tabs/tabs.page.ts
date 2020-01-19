@@ -14,5 +14,6 @@ export class TabsPage implements OnInit {
   ngOnInit(): void {
     this.storageService.subscribeShoppingLists();
     this.storageService.subscribeInventory();
+    this.storageService.loadFromDisk();
   }
 }

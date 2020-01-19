@@ -82,7 +82,7 @@ export class Tab1Page implements OnInit{
 
   subscribeShoppingList(): void {
     this.shoppingListService.getShoppingList()
-    .subscribe(shoppingList => {this.shoppingLists = shoppingList; console.log("fetched");});
+    .subscribe(shoppingList => {this.shoppingLists = shoppingList;});
   }
 
   doReorder(ev: any, id: number){

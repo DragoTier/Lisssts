@@ -81,7 +81,7 @@ export class Tab2Page implements OnInit{
 
   subscribeInventory(): void {
     this.inventoryService.getInventory()
-    .subscribe(inventory => {this.inventory = inventory; console.log("fetched");});
+    .subscribe(inventory => {this.inventory = inventory;});
   }
 
   doReorder(ev: any, id: number){

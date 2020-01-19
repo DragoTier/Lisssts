@@ -13,11 +13,14 @@ export class StorageService {
   shoppingListsKey: string = 'shoppingLists';
   inventory: InventoryList[];
   shoppingLists: InventoryList[];
+  private firstInvokeInventory = true;
+  private firstInvokeShoppingList = true;
+
   constructor(private storage: Storage, private inventoryService: InventoryService, private shoppingListService: ShoppingListService) { }
 
   subscribeInventory() {
     this.inventoryService.getInventory()
-    .subscribe(inventory => {this.inventory = inventory;});
+    .subscribe(inventory => {this.inventory = inventory; this.storeInventory();});
   }
 
   subscribeShoppingLists() {
@@ -26,16 +29,24 @@ export class StorageService {
   }
 
   async storeShoppingList(){
-    this.storage.set(this.shoppingListsKey, JSON.stringify(this.shoppingLists));
+    if(this.firstInvokeShoppingList){
+      this.firstInvokeShoppingList = false;
+    } else{
+      this.storage.set(this.shoppingListsKey, JSON.stringify(this.shoppingLists));
+    }
   }
 
   async storeInventory(){
-    this.storage.set(this.inventoryKey, JSON.stringify(this.inventory));
+    if(this.firstInvokeInventory){
+      this.firstInvokeInventory = false;
+    } else {
+      this.storage.set(this.inventoryKey, JSON.stringify(this.inventory));
+    }
   }
 
   async storeToDisk(){
-    this.storage.set(this.inventoryKey, JSON.stringify(this.inventory));
-  
+    this.storeInventory();
+    this.storeShoppingList();
   }
 
   async loadFromDisk(){
