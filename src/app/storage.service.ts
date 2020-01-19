@@ -17,18 +17,16 @@ export class StorageService {
 
   subscribeInventory() {
     this.inventoryService.getInventory()
-    .subscribe(inventory => {this.inventory = inventory; this.storeInventory();});
+    .subscribe(inventory => {this.inventory = inventory;});
   }
 
   subscribeShoppingLists() {
     this.shoppingListService.getShoppingList()
-    .subscribe(shoppingLists => {this.storeShoppingList(shoppingLists);});
+    .subscribe(shoppingLists =>  {this.shoppingLists = shoppingLists; this.storeShoppingList();});
   }
 
-  async storeShoppingList(list: InventoryList[]){
-    this.shoppingLists = list;
-    console.log("AAAAAAAAAAAAAAAAAAAMK");
-    this.storage.set(this.shoppingListsKey, JSON.stringify(list));
+  storeShoppingList(){
+    this.storage.set(this.shoppingListsKey, JSON.stringify(this.shoppingLists));
   }
 
   async storeInventory(){
@@ -42,11 +40,9 @@ export class StorageService {
 
   async loadFromDisk(){
     this.storage.get(this.inventoryKey).then(val => {
-    //  console.log("AMK JUNGE: "+ val);
       this.inventoryService.setInventory(JSON.parse(val));
     });
     this.storage.get(this.shoppingListsKey).then(val => {
-      console.log("AMK JUNGE2: "+ val);
       this.shoppingListService.setShoppingList(JSON.parse(val));
     });
   }
