@@ -25,7 +25,7 @@ export class StorageService {
     .subscribe(shoppingLists =>  {this.shoppingLists = shoppingLists; this.storeShoppingList();});
   }
 
-  storeShoppingList(){
+  async storeShoppingList(){
     this.storage.set(this.shoppingListsKey, JSON.stringify(this.shoppingLists));
   }
 
