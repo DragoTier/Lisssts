@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { InventoryList} from './inventoryClasses';
+import { InventoryList, InventoryItem} from './inventoryClasses';
 import { Observable, BehaviorSubject} from 'rxjs';
 
 @Injectable({
@@ -25,5 +25,15 @@ export class InventoryService {
   setInventory(inventory: InventoryList[]){
     this.inventory = inventory;
     this.inventorySource.next(inventory);
+  }
+
+  addToInventory(inventory: InventoryList[]) {
+    this.inventory.map( (list, listIndex) => {
+      inventory.map( (newList, newListIndex) => {
+        if(list.name == newList.name){
+          
+        }
+      });
+    });
   }
 }

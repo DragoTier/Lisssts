@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Shopping List</ion-title>
-    <ion-button slot="primary" (click)="toggleReorderGroups()">{{reorderButtonName}}</ion-button>
+    <ion-button fill="clear" shape="round" slot="primary" (click)="addToInventory()" [disabled]="!masterCheck">
+      <ion-icon size="large" name="checkmark"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +21,7 @@
     <ion-reorder-group (ionItemReorder)="doReorder($event, shoppingList.id)" disabled="true" > 
       <ion-item-sliding *ngFor="let item of shoppingList.items"> 
         <ion-item> 
-          <ion-checkbox color="success" slot="start" checked="false"></ion-checkbox>
+          <ion-checkbox color="success" slot="start" [(ngModel)]="item.isChecked" (ionChange)="checkEvent()"></ion-checkbox>
           <ion-label>{{item.name}}</ion-label>
           <ion-label>{{item.count}} </ion-label>
           <ion-reorder slot="end"></ion-reorder>
@@ -36,10 +38,6 @@
       <ion-icon name="add-circle-outline" size="large"></ion-icon>
     </ion-button>
   </ion-card>
-
-  <ion-button (click)="showStorage()"> 
-    Show Storage
-  </ion-button>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="presentNewListModal()">

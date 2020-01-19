@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { InventoryService } from './inventory.service';
 import { ShoppingListService } from './shopping-list.service';
-import { InventoryList } from './inventoryClasses';
+import { InventoryList, ShoppingList } from './inventoryClasses';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class StorageService {
   inventoryKey: string = 'inventory';
   shoppingListsKey: string = 'shoppingLists';
   inventory: InventoryList[];
-  shoppingLists: InventoryList[];
+  shoppingLists: ShoppingList[];
   private firstInvokeInventory = true;
   private firstInvokeShoppingList = true;
 
@@ -50,11 +50,15 @@ export class StorageService {
   }
 
   async loadFromDisk(){
-    this.storage.get(this.inventoryKey).then(val => {
-      this.inventoryService.setInventory(JSON.parse(val));
-    });
-    this.storage.get(this.shoppingListsKey).then(val => {
-      this.shoppingListService.setShoppingList(JSON.parse(val));
-    });
+    try{
+      this.storage.get(this.inventoryKey).then(val => {
+        this.inventoryService.setInventory(JSON.parse(val));
+      });
+      this.storage.get(this.shoppingListsKey).then(val => {
+        this.shoppingListService.setShoppingList(JSON.parse(val));
+      });
+    } catch{
+      console.log("storage error. Probably no stored data");
+    }
   }
 }

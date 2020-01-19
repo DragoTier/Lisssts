@@ -17,7 +17,11 @@ export class Tab2Page implements OnInit{
   reorderButtonName: string = this.stringToggle;
   inventory: InventoryList[];
 
-  constructor(private inventoryService: InventoryService, public modalController: ModalController, public popoverController: PopoverController) {}
+  constructor(
+    private inventoryService: InventoryService, 
+    public modalController: ModalController, 
+    public popoverController: PopoverController
+    ) {}
 
   @ViewChildren(IonReorderGroup) reorderGroupArray !: QueryList<IonReorderGroup>;
 
@@ -36,6 +40,7 @@ export class Tab2Page implements OnInit{
         this.inventory.forEach( (list, invIndex) => {
           if(list.id == id){
             this.inventory.splice(invIndex, 1);
+            this.updateInventory();
             return;
           }
         });
