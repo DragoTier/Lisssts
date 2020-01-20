@@ -52,10 +52,14 @@ export class StorageService {
   async loadFromDisk(){
     try{
       this.storage.get(this.inventoryKey).then(val => {
-        this.inventoryService.setInventory(JSON.parse(val));
+        const valString = JSON.parse(val);
+        if(valString != null)
+          this.inventoryService.setInventory(valString);
       });
       this.storage.get(this.shoppingListsKey).then(val => {
-        this.shoppingListService.setShoppingList(JSON.parse(val));
+        const valString = JSON.parse(val);
+        if(valString != null)
+          this.shoppingListService.setShoppingList(valString);
       });
     } catch{
       console.log("storage error. Probably no stored data");
