@@ -36,25 +36,26 @@ export class Tab1Page implements OnInit{
 
   addToInventory(){
     let newInventory: InventoryList[] = [];
-    this.shoppingLists.map( (list, listIndex) => {
+    for(var t = this.shoppingLists.length -1; t >= 0; t--){
       let newList: InventoryList = {
-        id: list.id,
-        name: list.name,
+        id: this.shoppingLists[t].id,
+        name: this.shoppingLists[t].name,
         items: []
       };
-      list.items.map( (item, itemIndex) => {
-        if(item.isChecked){
+      for(var i = this.shoppingLists[t].items.length -1; i >= 0; i--){
+        if(this.shoppingLists[t].items[i].isChecked){
           if(!newInventory.includes(newList)){
             newInventory.push(newList);
           }
-          newInventory[newInventory.length-1].items.push(item);
+          newInventory[newInventory.length-1].items.push(this.shoppingLists[t].items[i]);
           
-          this.shoppingLists[listIndex].items.splice(itemIndex, 1);
+          this.shoppingLists[t].items.splice(i, 1);
         }
-      });
-    });
+      }
+    }
     this.updateShoppingLists();
     this.inventoryService.addToInventory(newInventory);
+    this.checkEvent();
   }
 
   checkEvent(){

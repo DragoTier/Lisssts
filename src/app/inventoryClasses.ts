@@ -17,4 +17,6 @@ export class ShoppingListItem extends InventoryItem{
 
 export class ShoppingList extends InventoryList{
     items: ShoppingListItem[];
+
+    
 }

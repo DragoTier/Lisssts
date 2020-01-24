@@ -14,7 +14,6 @@
           <ion-icon slot="icon-only" size="default" name="more"></ion-icon>
         </ion-button>
       </ion-item>
-      
     </ion-card-header>
     
     <ion-reorder-group (ionItemReorder)="doReorder($event, inventoryList.id)" disabled="true" > 
@@ -26,6 +25,7 @@
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="delete(item, inventoryList.id)">Remove</ion-item-option>
+          <ion-item-option *ngIf="item.count == 1" color="warning" (click)="addToShoppingList(item, inventoryList.id)">to Shopping list</ion-item-option>
         </ion-item-options>
         <ion-item-options side="start">
           <ion-item-option  color="success" (click)="add(item, inventoryList.id)">Add</ion-item-option>

@@ -1,10 +1,11 @@
 import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
 import { IonReorderGroup, ModalController, PopoverController } from '@ionic/angular';
-import { InventoryItem, InventoryList } from '../inventoryClasses';
+import { InventoryItem, InventoryList, ShoppingList, ShoppingListItem } from '../inventoryClasses';
 import { InventoryService } from '../inventory.service';
 import { AddItemModalPage } from '../add-item-modal/add-item-modal.page';
 import { AddListModalPage } from '../add-list-modal/add-list-modal.page';
 import { DeleteListPopoverComponent } from 'app/delete-list-popover/delete-list-popover.component';
+import { ShoppingListService } from 'app/shopping-list.service';
 
 @Component({
   selector: 'app-tab2',
@@ -19,6 +20,7 @@ export class Tab2Page implements OnInit{
 
   constructor(
     private inventoryService: InventoryService, 
+    private shoppingService: ShoppingListService,
     public modalController: ModalController, 
     public popoverController: PopoverController
     ) {}
@@ -82,6 +84,29 @@ export class Tab2Page implements OnInit{
       }
     });
     return await modal.present();
+  }
+
+  addToShoppingList(item: InventoryItem, id: number){
+    let newShoppingLists: ShoppingList[] = [];
+
+    for(var t = this.inventory.length -1; t >= 0; t--){
+      if(this.inventory[t].id == id){
+        const newItem: ShoppingListItem = {
+          name: item.name,
+          count: item.count,
+          isChecked: false
+        };
+        let newList: ShoppingList = {
+          id: this.inventory[t].id,
+          name: this.inventory[t].name,
+          items: [newItem]
+        };
+        this.updateInventory();
+        this.shoppingService.addToShoppingList(newList);
+        this.delete(item, id);
+        return;
+      }
+    }
   }
 
   subscribeInventory(): void {
