@@ -65,4 +65,8 @@ export class StorageService {
       console.log("storage error. Probably no stored data");
     }
   }
+
+  async clearStorage(){
+    this.storage.clear();
+  }
 }
