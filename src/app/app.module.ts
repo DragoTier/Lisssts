@@ -12,6 +12,8 @@ import { AppComponent } from './app.component';
 import { AddItemModalPageModule } from './add-item-modal/add-item-modal.module';
 import { AddListModalPageModule } from './add-list-modal/add-list-modal.module';
 import { DeleteListPopoverComponent } from './delete-list-popover/delete-list-popover.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { DeleteListPopoverComponent } from './delete-list-popover/delete-list-po
     IonicStorageModule.forRoot(),
     AppRoutingModule, 
     AddItemModalPageModule, 
-    AddListModalPageModule
+    AddListModalPageModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     StatusBar,
