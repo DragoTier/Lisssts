@@ -8,10 +8,7 @@ import { InventoryList, ShoppingList } from './inventoryClasses';
 export class ShoppingListService {
   
 
-  shoppingList: ShoppingList[] = [
-    {name: 'Lebensmittel', id: 1, items: [{name: 'Tomaten', count: 5, isChecked: false}, {name: 'Gurken', count: 1, isChecked: false}]},
-    {name: 'Anderes', id: 2, items: [{name: 'Glasreiniger', count: 1, isChecked: false}, {name: 'Spargelschäler', count: 1, isChecked: false}]}
-  ];
+  shoppingList: ShoppingList[] = [];
 
   private shoppingListSource = new BehaviorSubject<ShoppingList[]>(this.shoppingList);
   shoppingList$ = this.shoppingListSource.asObservable();

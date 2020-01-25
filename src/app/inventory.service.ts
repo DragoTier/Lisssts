@@ -7,10 +7,7 @@ import { Observable, BehaviorSubject} from 'rxjs';
 })
 export class InventoryService {
 
-  inventory: InventoryList[] = [
-    {name: 'Lebensmittel', id: 1, items: [{name: 'Bierooo', count: 9000}, {name: 'Weinoo', count: 666}]},
-    {name: 'Anderes', id: 2, items: [{name: 'Star Wars', count: 404}, {name: 'deine mutter', count: 1}]}
-  ];
+  inventory: InventoryList[] = [];
 
   private inventorySource = new BehaviorSubject<InventoryList[]>(this.inventory);
   inventory$ = this.inventorySource.asObservable();

@@ -35,7 +35,7 @@ async function createWindow () {
     width: 350,
     resizable: false,
     show: false,
-    icon: __dirname + '/app/assets/icon/favicon.ico',
+    icon: __dirname + '/app/assets/icon/favicon.png',
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, 'node_modules', '@capacitor', 'electron', 'dist', 'electron-bridge.js')
