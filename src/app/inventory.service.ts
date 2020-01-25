@@ -37,19 +37,19 @@ export class InventoryService {
           //compare each item of the list with each item of the corresponding list
           for( var j = inventory[t].items.length -1; j >= 0; j--){
             for(var k = this.inventory[i].items.length -1; k >= 0; k--){
-              //if item with same is found: add count to existing item in this.inventory
+              //if item with same is found: add count to existing item in this.inventory and remove it form list
               if(inventory[t].items[j].name === this.inventory[i].items[k].name){
                 this.inventory[i].items[k].count += inventory[t].items[j].count;
                 inventory[t].items.splice(j, 1);
                 break;
               }
             }
-            // this.inventory[i].items.push(inventory[t].items[j]);
-            
           }
+          // add remaining items to this.inventory
           inventory[t].items.forEach( (item) => {
             this.inventory[i].items.push(item);
           });
+          // remove the list
           inventory.splice(t, 1);
           break;
         }

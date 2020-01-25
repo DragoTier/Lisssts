@@ -43,7 +43,6 @@ export class Tab1Page implements OnInit{
         items: []
       };
       for(var i = this.shoppingLists[t].items.length -1; i >= 0; i--){
-        debugger;
         if(this.shoppingLists[t].items[i].isChecked){
           if(!newInventory.includes(newList)){
             newInventory.push(newList);
